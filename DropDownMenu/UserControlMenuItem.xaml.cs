@@ -16,19 +16,27 @@ using System.Windows.Shapes;
 
 namespace DropDownMenu
 {
-  /// <summary>
-  /// Interaction logic for UserControlMenuItem.xaml
-  /// </summary>
-  public partial class UserControlMenuItem : UserControl
-  {
-    public UserControlMenuItem(ItemMenu itemMenu)
+    /// <summary>
+    /// Interaction logic for UserControlMenuItem.xaml
+    /// </summary>
+    public partial class UserControlMenuItem : UserControl
     {
-      InitializeComponent();
+        MainWindow _context;
+        public UserControlMenuItem(ItemMenu itemMenu, MainWindow context)
+        {
+            InitializeComponent();
 
-      ExpanderMenu.Visibility = itemMenu.SubItems == null ? Visibility.Collapsed : Visibility.Visible;
-      ListViewItemMenu.Visibility = itemMenu.SubItems == null ? Visibility.Visible : Visibility.Collapsed;
+            _context = context;
 
-      this.DataContext = itemMenu;
+            ExpanderMenu.Visibility = itemMenu.SubItems == null ? Visibility.Collapsed : Visibility.Visible;
+            ListViewItemMenu.Visibility = itemMenu.SubItems == null ? Visibility.Visible : Visibility.Collapsed;
+
+            this.DataContext = itemMenu;
+        }
+
+        private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _context.SwitchScreen(((SubItem)((ListView)sender).SelectedItem).Screen);
+        }
     }
-  }
 }
